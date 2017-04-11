@@ -23,10 +23,8 @@ public class PollyDemo {
 
 	private final AmazonPollyClient polly;
 	private final Voice voice;
-	private static final String SAMPLE = "Congratulations. You have successfully built this working demo" +  
-	"of Amazon Polly in Java. Have fun building voice enabled apps with Amazon Polly" + "(that's me!), and always" + 
-	"look at the AWS website for tips and tricks on using Amazon Polly and other great services from AWS";
-
+	private static String sample;
+	
 	public PollyDemo(Region region) {
 		// create an Amazon Polly client in a specific region
 		polly = new AmazonPollyClient(new DefaultAWSCredentialsProviderChain(), 
@@ -48,12 +46,19 @@ public class PollyDemo {
 
 		return synthRes.getAudioStream();
 	}
-
-	public static void main(String args[]) throws Exception {
+	
+	/*public void setSample(String sample){
+		this.sample = sample;
+	}*/
+	
+	public void initialize(final String sample) throws Exception {
+		
+		this.sample = sample;
+		
 		//create the test class
-		PollyDemo helloWorld = new PollyDemo(Region.getRegion(Regions.US_EAST_1));
+		//PollyDemo helloWorld = new PollyDemo(Region.getRegion(Regions.US_EAST_1));
 		//get the audio stream
-		InputStream speechStream = helloWorld.synthesize(SAMPLE, OutputFormat.Mp3);
+	    InputStream speechStream = synthesize(sample, OutputFormat.Mp3);
 
 		//create an MP3 player
 		AdvancedPlayer player = new AdvancedPlayer(speechStream,
@@ -63,7 +68,7 @@ public class PollyDemo {
 			@Override
 			public void playbackStarted(PlaybackEvent evt) {
 				System.out.println("Playback started");
-				System.out.println(SAMPLE);
+				System.out.println(sample);
 			}
 			
 			@Override
