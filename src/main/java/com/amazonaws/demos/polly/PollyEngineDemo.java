@@ -12,52 +12,37 @@ import com.amazonaws.services.polly.model.SynthesizeSpeechResult;
 import com.amazonaws.services.polly.model.Voice;
 
 import javazoom.jl.player.advanced.AdvancedPlayer;
-import javazoom.jl.player.advanced.PlaybackEvent;
-import javazoom.jl.player.advanced.PlaybackListener;
 
 public class PollyEngineDemo {
 	
-	public AmazonPolly polly;
-	public static AdvancedPlayer player;
-	public InputStream inputstream;
+	private AmazonPolly polly;
+	private AdvancedPlayer player;
+	private InputStream inputstream;
 	private Voice voice;
+	private String text;
 	
-	public PollyEngineDemo() throws Exception{
-		
-    polly = AmazonPollyClientBuilder.defaultClient();
+	public void pollyPlay(String message) throws Exception{
 	
+	this.text = message;
+	
+	//create a polly client with default Credential and Region
+	polly = AmazonPollyClientBuilder.defaultClient();
+	
+	//get available voice id
     DescribeVoicesRequest describeVoicesRequest = new DescribeVoicesRequest();
 	DescribeVoicesResult describeVoicesResult = polly.describeVoices(describeVoicesRequest);
 	voice = describeVoicesResult.getVoices().get(0);
     
-    SynthesizeSpeechRequest synthReq = new SynthesizeSpeechRequest().withText("Hi! Navdeep")
+	//synthesize speech
+    SynthesizeSpeechRequest synthReq = new SynthesizeSpeechRequest().withText(text)
     		.withVoiceId(voice.getId()).withOutputFormat(OutputFormat.Mp3);
     SynthesizeSpeechResult synthRes = polly.synthesizeSpeech(synthReq);
     inputstream = synthRes.getAudioStream();
     
+    //play with mp3 player
     player = new AdvancedPlayer(inputstream,
 			javazoom.jl.player.FactoryRegistry.systemRegistry().createAudioDevice());
-	
-	}
-
-	
-	public static void main(String[] args ) throws Exception{
-		
-	PollyEngineDemo demo = new PollyEngineDemo();	
-		
-	player.setPlayBackListener(new PlaybackListener() {
-		@Override
-		public void playbackStarted(PlaybackEvent evt) {
-			System.out.println("Playback started");
-		}
-		
-		@Override
-		public void playbackFinished(PlaybackEvent evt) {
-			System.out.println("Playback finished");
-		}
-	});		
-	
-	player.play();
-	
+    player.play();
+    
 	}
 }
