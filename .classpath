@@ -40,5 +40,6 @@
 	<classpathentry kind="lib" path="C:/Users/LIFE/Desktop/aws-java-sdk-1.11.116/lib/aws-java-sdk-1.11.116.jar"/>
 	<classpathentry kind="lib" path="C:/Users/LIFE/Desktop/aws-java-sdk-1.11.116/lib/aws-java-sdk-1.11.116-javadoc.jar"/>
 	<classpathentry kind="lib" path="C:/Users/LIFE/Desktop/aws-java-sdk-1.11.116/lib/aws-java-sdk-1.11.116-sources.jar"/>
+	<classpathentry kind="lib" path="/UDPBasedServerClient/src/com/navdeep/udpServer"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

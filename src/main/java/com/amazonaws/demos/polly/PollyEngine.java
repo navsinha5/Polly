@@ -15,10 +15,6 @@ import com.amazonaws.services.polly.model.SynthesizeSpeechRequest;
 import com.amazonaws.services.polly.model.SynthesizeSpeechResult;
 import com.amazonaws.services.polly.model.Voice;
 
-import javazoom.jl.player.advanced.AdvancedPlayer;
-import javazoom.jl.player.advanced.PlaybackEvent;
-import javazoom.jl.player.advanced.PlaybackListener;
-
 public class PollyEngine {
 
 	private final AmazonPollyClient polly;
@@ -26,6 +22,7 @@ public class PollyEngine {
 	private static String sample;
 	
 		
+	@SuppressWarnings("deprecation")
 	public PollyEngine() {
 		// create an Amazon Polly client in a specific region
 		polly = new AmazonPollyClient(new DefaultAWSCredentialsProviderChain(), 
@@ -52,7 +49,7 @@ public class PollyEngine {
 		this.sample = sample;
 	}*/
 	
-	public void initialize(final String sample) throws Exception {
+	public InputStream initialize(final String sample) throws Exception {
 		
 		this.sample = sample;
 		
@@ -62,6 +59,7 @@ public class PollyEngine {
 		//get the audio stream
 	    InputStream speechStream = synthesize(sample, OutputFormat.Mp3);
 
+	    /*
 		//create an MP3 player
 		AdvancedPlayer player = new AdvancedPlayer(speechStream,
 				javazoom.jl.player.FactoryRegistry.systemRegistry().createAudioDevice());
@@ -82,6 +80,7 @@ public class PollyEngine {
 		
 		// play it!
 		player.play();
-		
+		*/
+	    return speechStream;
 	}
 } 
